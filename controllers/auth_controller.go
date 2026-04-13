@@ -13,7 +13,14 @@ import (
 var users []models.User
 var userID = 1
 var secretKey = []byte("mysecretkey")
-
+// @Summary Register a new user
+// @Description Create user with username and password
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param user body object true "User Data"
+// @Success 200 {string} string "User registered"
+// @Router /register [post]
 
 // Register Function
 func Register(w http.ResponseWriter,r *http.Request){
@@ -40,6 +47,14 @@ func Register(w http.ResponseWriter,r *http.Request){
 	w.Write([]byte("User Registerd"))
 }
 // Login Function
+// @Summary Login user
+// @Description Authenticate user and return JWT
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param user body object true "Login Data"
+// @Success 200 {object} map[string]string
+// @Router /login [post]
 func Login(w http.ResponseWriter, r *http.Request) {
 
 	var input struct {
@@ -76,6 +91,13 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	http.Error(w, "User not found", http.StatusUnauthorized)
 }
 // protected function
+// @Summary Protected route
+// @Description Requires JWT token
+// @Tags Auth
+// @Produce plain
+// @Security BearerAuth
+// @Success 200 {string} string "Protected data"
+// @Router /protected [get]
 func Protected(w http.ResponseWriter, r *http.Request) {
 
 	authHeader := r.Header.Get("Authorization")

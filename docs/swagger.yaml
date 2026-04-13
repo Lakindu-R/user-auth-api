@@ -1,0 +1,48 @@
+basePath: /
+host: localhost:8081
+info:
+  contact: {}
+  description: This is a JWT authentication API in Go
+  title: User Auth API
+  version: "1.0"
+paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate user and return JWT
+      parameters:
+      - description: Login Data
+        in: body
+        name: user
+        required: true
+        schema:
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Login user
+      tags:
+      - Auth
+  /protected:
+    get:
+      description: Requires JWT token
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: Protected data
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Protected route
+      tags:
+      - Auth
+swagger: "2.0"
